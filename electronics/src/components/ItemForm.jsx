@@ -47,6 +47,16 @@ const ItemForm = (props) => {
         required="required"
       />
 
+      <label>Price</label>
+      <input
+        type="number"
+        name="price"
+        id="price"
+        placeholder="Insert the price"
+        className="Price"
+        required="required"
+      ></input>
+
       <button>Submit</button>
       <button onClick={HandleCancel}>Cancel</button>
 
