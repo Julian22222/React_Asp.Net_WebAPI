@@ -52,7 +52,7 @@ public class ItemRepository : IItemRepository  //inherit from Interface
 
 
 
-    public async Task<Item?> GetItemById(int id){
+    public async Task<Item?> GetItemById(int id){   //Item? <-- Can have an Item or CAN BE NULL, if it is not find something it will return null
         // return await _context.Items.FirstOrDefaultAsync(id);    //Find needed item, received object is in Item Model, this line of code will show Items without comments
         return await _context.Items.Include(x=>x.Comments).FirstOrDefaultAsync(m => m.Id == id); 
     }
@@ -70,6 +70,7 @@ public class ItemRepository : IItemRepository  //inherit from Interface
 
 
 
+    //Item? <-- Can have an Item or CAN BE NULL, if it is not find something it will return null
     public async Task<Item?> UpdateItem(int id, UpdateItemRequestDto itemDto){  //itemDto data from posted body from client
 
     var existingItem = await _context.Items.FirstOrDefaultAsync(x => x.Id == id); //find needed Item from DB --> in Item Format
@@ -99,6 +100,7 @@ public class ItemRepository : IItemRepository  //inherit from Interface
 
 
 
+    //Item? <-- Can have an Item or CAN BE NULL, if it is not find something it will return null
     public async Task<Item?> DeleteItem(int id){
         
     var itemModel = await _context.Items.FindAsync(id);   //<-- find an object by id from DB

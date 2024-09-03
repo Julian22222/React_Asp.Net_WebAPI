@@ -20,9 +20,9 @@ namespace api.Interfaces
 
         Task<Item> CreateNewItem (Item itemModel);   // for POST method  
 
-        Task<Item?> UpdateItem (int id, UpdateItemRequestDto itemDto);   //Item?  <--return data can be null 
+        Task<Item?> UpdateItem (int id, UpdateItemRequestDto itemDto);   //Item? <-- Can have an Item or CAN BE NULL, if it is not find something it will return null
     
-        Task<Item?> DeleteItem(int id);
+        Task<Item?> DeleteItem(int id);    //Item? <-- Can have an Item or CAN BE NULL, if it is not find something it will return null
 
         Task<bool> IsItemExist(int id);   // by this method we can chec if the Item exist, when we add the comment to this Item
     }

@@ -32,12 +32,26 @@ public static class CommentMapper   //static file
 
 
     public static Comment ToCommentFromCreate (this CreateCommentDto commentDto, int itemId){   //static method  //CreateCommentDto <--data type, commentDto <--method name,  int itemId <-- foreign key for Item
-
+    //From  CommentController.cs --> we use this method -->//commentDto.ToCommentFromCreate(ItemId); /<--CreateCommentDto comes from CreateCommentDto commentDto, int itemId comes from --> ItemId
+    
     return new Comment(){   
         //Id <-- we don't neeed it is created automatically by EntityFramework Core
         Title = commentDto.Title,
         Content = commentDto.Content,
-        ItemId = itemId   //<-- isegn a foreign key 
+        ItemId = itemId   //<-- asign a foreign key 
+    };
+    }
+
+
+
+
+
+    public static Comment ToCommentFromUpdate (this UpdateCommentRequestDto updateDto){   //static method  //UpdateCommentRequestDto <--data type, updateDto <--method name
+    
+    //Convert UpdateCommentRequestDto data type to Comment data type
+    return new Comment(){   
+        Title = updateDto.Title,
+        Content = updateDto.Content,
     };
     }
 }

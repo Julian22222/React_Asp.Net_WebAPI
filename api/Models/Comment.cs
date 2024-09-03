@@ -7,8 +7,8 @@ public class Comment
     public string Title { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
     public DateTime CreatedOn { get; set; } = DateTime.Now;
-    public int? ItemId { get; set; }  //foreign key of Items Table  
+    public int? ItemId { get; set; }  //foreign key of Items Table , each comment should be referenced to some Item
 
     //Linking two DB tables
-    public Item? Item { get; set; }
+    public Item? Item { get; set; }    //field is optional
 }

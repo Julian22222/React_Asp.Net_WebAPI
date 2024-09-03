@@ -14,7 +14,13 @@ public interface ICommentRepository
 
     Task<List<Comment>> GetAllComments();
 
-    Task<Comment?> GetCommentById(int id);  //Coment is optional, Get the coment by Id 
+    Task<Comment?> GetCommentById(int id);  //Comment? <-- Can have a Comment or CAN BE NULL, if it is not find something it will return null
 
     Task<Comment> CreateComment(Comment commentModel);
+
+    Task<Comment?> UpdateComment(int commentId, Comment commentModel);    //Comment? <-- Can have a Comment or CAN BE NULL
+
+
+    Task<Comment?> DeleteComment(int commentId);
+
 }

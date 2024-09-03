@@ -30,6 +30,7 @@ public class CommentRepository : ICommentRepository   // inherit from Interface
     }
 
 
+    //Comment? <-- Can have a Comment or CAN BE NULL, if it is not find something it will return null
     public async Task<Comment?> GetCommentById(int id){
         return await _context.Comments.FindAsync(id);  //Find needed Comment, received object is in Comment Model Format
     } 
@@ -44,6 +45,43 @@ public class CommentRepository : ICommentRepository   // inherit from Interface
         return commentModel;
     }
 
+
+
+
+    public async Task<Comment?> UpdateComment(int commentId, Comment commentModel){
+
+        var existingComment = await _context.Comments.FindAsync(commentId);   //checking is the comment exist in DB  
+    
+        if (existingComment == null){
+            return null;
+        }
+
+
+        //Update the comment
+        existingComment.Title = commentModel.Title;
+        existingComment.Content = commentModel.Content;
+
+
+        await _context.SaveChangesAsync();   //Save changes in DB
+        return existingComment;   //return Chanhged Comment
+    }
+
+
+
+
+    public async Task<Comment?> DeleteComment(int commentId){
+
+        var commentModel = await _context.Comments.FirstOrDefaultAsync(x=> x.Id == commentId);   //checking is the comment exist in DB  
+
+        if(commentModel == null){
+            return null;
+        }
+
+        _context.Comments.Remove(commentModel);   //don't use await with Remove Method, Remove dosn't have an await method
+        await _context.SaveChangesAsync();
+
+        return commentModel;
+    }
 
 
 }
