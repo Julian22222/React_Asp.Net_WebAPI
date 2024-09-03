@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Dtos.Comment;  // To use CommentDto
 
 namespace api.Dtos.Item
 {
@@ -29,6 +30,8 @@ namespace api.Dtos.Item
     // if we are dealing with money, can have only 18 digits and only 2 decimal places
     [ColumnAttribute(TypeName = "decimal(18,2)")]
     public decimal Price { get; set; }
+
+    public List<CommentDto> Comments { get; set; }  //Show the comments for an Item
 
     }
 }

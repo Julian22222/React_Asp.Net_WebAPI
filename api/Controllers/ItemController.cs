@@ -85,7 +85,7 @@ public class ItemController : ControllerBase  //<--Inherit from ControllerBase ,
     //Create Request portion of our DTO, user will need to submit only data from DTO , but not to fill all properties from Item Class
     //for a POST method we create another DTO --> CreateItemRequestDto, it will help to trim out not needed properties to POST (No need -> Id, and comments from Item Model)
 
-    var itemModel = ItemDto.ToItemFromCreateDTO();  //Convert it to specfic dat type using ToItemFromCreateDTO Method
+    var itemModel = ItemDto.ToItemFromCreateDTO();  //Convert CreateItemRequestDto data type to specfic data type using ToItemFromCreateDTO Method
 
     await _iitemRepository.CreateNewItem(itemModel);   //Use ItemRepository methods
 

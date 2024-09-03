@@ -1,3 +1,5 @@
+[Web API Docs with ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0&WT.mc_id=dotnet-35129-website&tabs=visual-studio-code)
+
 # Swagger Documentation
 
 - Is called Swagger or Swagger Interface
@@ -23,7 +25,8 @@ DTO help to trim the object and pass only needed data-->
 ### DTO is used --> when we want to modefy some properies in already existing Class--> we create similar class and delete some properties that we don't need (Work together with Auto Mapper)
 
 - it is creating new object but with modified properies (example: Item and ItemDto)
-- We create Dtos folder and put all new modefied Models inside
+- We create Dtos folder and put all new modefied Models files inside that folder
+- DTO Models are used only to show some Data to the Clinet, we can't send DTO to DB
 - if we want to show some details but we don't need full object of all properties
 - For example we don't want to receive the Comments for an Item, then we create the same Item object but without Comments property
 - DTO and Mapper work together
@@ -73,3 +76,37 @@ public async Task<Item> GetAll(){
 - Interfaces have only Methods name with arguments but all logic of these methods are in Repository Class
 - Interfaces are easier to implement and use in Application
 - Then we use Interfaces to interact with DB in different classes, we import Interface
+
+# To Get The Comments in GET request for All Items
+
+- We change Itemrepository.cs file (line 49 and 57)
+
+```C#
+ return await _context.Items.Include(x=>x.Comments).ToListAsync();
+
+
+return await _context.Items.Include(x=>x.Comments).FirstOrDefaultAsync(m => m.Id == id);
+```
+
+- change ItemMappers.cs file (line 27)
+
+```C#
+ Comments = item.Comments.Select(x => x.ToCommentDto()).ToList(),
+```
+
+- Then we need to install 2 Nuget packages:
+
+```C#
+Newtonsoft.Json   //<-- by James newton-King
+
+Microsoft.AspNetCore.Mvc.NewtonsoftJson   //<--by Microsoft ASP.NET Core MVC
+```
+
+- Then to use this packages in our Appwe need to write some code in Program.cs file (line 19)
+
+```C#
+//To Use NewtonsoftJson extensions, we need to write this code -->
+builder.Services.AddControllers().AddNewtonsoftJson(options =>{
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;  // write this code to prevent object cycles
+});
+```

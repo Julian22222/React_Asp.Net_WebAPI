@@ -10,7 +10,10 @@ using api.Data;
 
 namespace api.Repository;
 
-public class CommentRepository : ICommentRepository
+//This Class must Implementing all interface methods (From Interfaces/ICommentRepository) !!!!!!!!!!!!
+//This Class inherits ICommentRepository Interface, therefore this Class MUST have the same methods and take the same arguments as --> ICommentRepository Interface
+
+public class CommentRepository : ICommentRepository   // inherit from Interface
 {
 
     private readonly ApplicationDBContext _context;   //assign a variable
@@ -24,6 +27,21 @@ public class CommentRepository : ICommentRepository
 
     public async Task<List<Comment>> GetAllComments(){
         return await _context.Comments.ToListAsync();
+    }
+
+
+    public async Task<Comment?> GetCommentById(int id){
+        return await _context.Comments.FindAsync(id);  //Find needed Comment, received object is in Comment Model Format
+    } 
+
+
+
+    public async Task<Comment> CreateComment(Comment commentModel){
+
+        await _context.Comments.AddAsync(commentModel);
+        await _context.SaveChangesAsync();
+
+        return commentModel;
     }
 
 

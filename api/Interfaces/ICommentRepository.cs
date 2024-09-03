@@ -9,5 +9,12 @@ namespace api.Interfaces;
 
 public interface ICommentRepository
 {
+
+    //This Interface has the same Methods and properties as CommentRepository Class in Repository folder
+
     Task<List<Comment>> GetAllComments();
+
+    Task<Comment?> GetCommentById(int id);  //Coment is optional, Get the coment by Id 
+
+    Task<Comment> CreateComment(Comment commentModel);
 }

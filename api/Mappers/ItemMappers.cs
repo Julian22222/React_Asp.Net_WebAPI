@@ -11,6 +11,10 @@ namespace api.Mappers
 {
     public static class ItemMappers  //static file
     {   
+
+         //Here We Convert one Item Data type to another Item Data type
+
+
         //different Methods in this class thit we can use
         //This is for GET Request (For Item)
         // ItemDto <-- we returning this type of data
@@ -24,6 +28,7 @@ namespace api.Mappers
                 Qty = item.Qty,
                 Price = item.Price,
                 Description = item.Description,
+                Comments = item.Comments.Select(x => x.ToCommentDto()).ToList(),  // Select(x => x.ToCommentDto <-- we are mapping all comments and convert then to ToCommentDto Format
                 //trmmed out in ItemDto Class first and then --> we use ItemDto class here
                 //trimed out property from Item Model, because we don't want to use it here
             };

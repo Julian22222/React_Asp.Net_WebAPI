@@ -74,3 +74,7 @@
 /home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/bin/Debug/net7.0/Microsoft.Extensions.DependencyModel.dll
 /home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/bin/Debug/net7.0/Mono.TextTemplating.dll
 /home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/bin/Debug/net7.0/System.CodeDom.dll
+/home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/bin/Debug/net7.0/Microsoft.AspNetCore.JsonPatch.dll
+/home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/bin/Debug/net7.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+/home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/bin/Debug/net7.0/Newtonsoft.Json.dll
+/home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/bin/Debug/net7.0/Newtonsoft.Json.Bson.dll

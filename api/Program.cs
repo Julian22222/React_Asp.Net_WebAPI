@@ -16,6 +16,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+//To Use NewtonsoftJson extensions, we need to write this code -->
+builder.Services.AddControllers().AddNewtonsoftJson(options =>{
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;  // write this code to prevent object cycles
+});
+
 
 //make sure you put this code before --> var app = builder.Build();  otherwise it won't work
 //ApplicationDBContext <-- DBContext file that we created in Data folder to connect to DB

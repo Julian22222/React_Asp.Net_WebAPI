@@ -19,9 +19,9 @@
 
 # Install packages from Nuget Package
 
-#### USE Nuget Gallery-->
+#### Dowload --> NuGet Gallery //<-- by pcisio
 
-- In Command Palette put (ctr + shift + p )-->
+- Then In Command Palette put (ctr + shift + p )-->
 
 ```bash
 NuGet:Open NuGet Gallery

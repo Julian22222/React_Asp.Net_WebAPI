@@ -43,14 +43,18 @@ public class ItemRepository : IItemRepository  //inherit from Interface
         
         // var newItem = items.Select(x => x.ToItemDto()); // Item Model Format (data type) we convert to ItemDto (data type)   using --> Mappers/ItemMappers.cs file
 
-        return await _context.Items.ToListAsync(); 
+
+
+        // return await _context.Items.ToListAsync();   //<-- this line of code will show Items without comments
+        return await _context.Items.Include(x=>x.Comments).ToListAsync();
     }
 
 
 
 
     public async Task<Item?> GetItemById(int id){
-        return await _context.Items.FindAsync(id);    //Find needed item, received object is in Item Model
+        // return await _context.Items.FirstOrDefaultAsync(id);    //Find needed item, received object is in Item Model, this line of code will show Items without comments
+        return await _context.Items.Include(x=>x.Comments).FirstOrDefaultAsync(m => m.Id == id); 
     }
 
 
@@ -68,7 +72,7 @@ public class ItemRepository : IItemRepository  //inherit from Interface
 
     public async Task<Item?> UpdateItem(int id, UpdateItemRequestDto itemDto){  //itemDto data from posted body from client
 
-    var existingItem = await _context.Items.FirstOrDefaultAsync(x => x.Id == id); //find needed Item in Item Format
+    var existingItem = await _context.Items.FirstOrDefaultAsync(x => x.Id == id); //find needed Item from DB --> in Item Format
     // var existingItem = await _context.Items.SelectAsync(x => x.Id == id).FirstOrDefaultAsync();  //<--the same
     //var existingItem = await _context.Items.FindAsync(id);   //<-- the same
 
@@ -110,4 +114,10 @@ public class ItemRepository : IItemRepository  //inherit from Interface
 
     return itemModel;
     }
+
+
+
+    public async Task<bool> IsItemExist(int id){     // by this method we can chec if the Item exist, when we add the comment to this Item
+        return await _context.Items.AnyAsync(x=> x.Id ==id);   //Any check if the item exist in DB it will return true or false  
+    }   
 }
