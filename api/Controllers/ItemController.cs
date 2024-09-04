@@ -10,6 +10,7 @@ using api.Interfaces;  // to use Interfaces
 using api.Data;    
 using api.Mappers;
 using api.Dtos.Item;  //to use CreateItemRequestDto
+using api.Helpers;   // to use QueryObject Class
 
 namespace api.Controllers;
 
@@ -30,15 +31,37 @@ public class ItemController : ControllerBase  //<--Inherit from ControllerBase ,
 
 
 
-    //This Method have the Route --> [Route("api/items")] 
-    [HttpGet]
-    public async Task<IActionResult> GetAll(){
+    // ////This Method have the Route --> [Route("api/items")] 
+    // [HttpGet]
+    // public async Task<IActionResult> GetAll(){  //option without Query
 
-        var data = await _iitemRepository.GetAllItems();  // use interface(which is linked with ItemRepository) and its method to get the data from DB,  Use ItemRepository methods
+    //     if(!ModelState.IsValid){     ////Here we perform all Data Validation from DTO Class, ModelState is coming from /inheriting from ControllerBase 
+    //         return BadRequest(ModelState);  
+    //     }
+
+
+    //     var data = await _iitemRepository.GetAllItems();  //// use interface(which is linked with ItemRepository) and its method to get the data from DB,  Use ItemRepository methods
+
+    //     return Ok(data);  //returning 200 Status Code and the data from DB
+    // }
+
+
+
+        //This Method have the Route --> [Route("api/items")] 
+    [HttpGet]
+    public async Task<IActionResult> GetAll([FromQuery] QueryObject query){  //[FromQuery]  <-- get the data from query in the URL, QueryObject <--data type , query <-- the name of this data
+    //We create QueryObject Class in --> Helpers folder
+
+        if(!ModelState.IsValid){     //Here we perform all Data Validation from DTO Class, ModelState is coming from /inheriting from ControllerBase 
+            return BadRequest(ModelState);  
+        }
+
+
+        //here we passing the query to itemRepository Class
+        var data = await _iitemRepository.GetAllItems(query);  // use interface(which is linked with ItemRepository) and its method to get the data from DB,  Use ItemRepository methods
 
         return Ok(data);  //returning 200 Status Code and the data from DB
     }
-
 
 
 
@@ -57,8 +80,12 @@ public class ItemController : ControllerBase  //<--Inherit from ControllerBase ,
 
     //End-point for this method will be --> [Route("api/items")] + /{id}
     // This Method will create new route for each item -->[Route("api/items")] + /{id}  //<--takes a variable
-    [HttpGet("{id}")]  //get a id variable, this id is transfered to --> ([FromRoute] int id) parametr --> .NET extraact "{id}" from string out turning it to --> int id. .Net do the Model binding
+    [HttpGet("{id:int}")]  //get a id variable, this id is transfered to --> ([FromRoute] int id) parametr --> .NET extraact "{id}" from string out turning it to --> int id. .Net do the Model binding. id must be an intager. It is checking the data type of id
     public async Task<IActionResult> GetById([FromRoute] int id){  //<--getting id from the URL 
+
+         if(!ModelState.IsValid){     //Here we perform all Data Validation from DTO Class, ModelState is coming from /inheriting from ControllerBase 
+            return BadRequest(ModelState);  
+        }
         
         var item = await _iitemRepository.GetItemById(id);    //Use ItemRepository methods
 
@@ -85,13 +112,19 @@ public class ItemController : ControllerBase  //<--Inherit from ControllerBase ,
     //Create Request portion of our DTO, user will need to submit only data from DTO , but not to fill all properties from Item Class
     //for a POST method we create another DTO --> CreateItemRequestDto, it will help to trim out not needed properties to POST (No need -> Id, and comments from Item Model)
 
+
+     if(!ModelState.IsValid){     //Here we perform all Data Validation from DTO Class, ModelState is coming from /inheriting from ControllerBase 
+            return BadRequest(ModelState);  
+        }
+
+
     var itemModel = ItemDto.ToItemFromCreateDTO();  //Convert CreateItemRequestDto data type to specfic data type using ToItemFromCreateDTO Method
 
     await _iitemRepository.CreateNewItem(itemModel);   //Use ItemRepository methods
 
     return CreatedAtAction(nameof(GetById), new {id = itemModel.Id}, itemModel.ToItemDto());  //return an object in --> ItemDto Format, using ToItemDto method
 
-    //CreatedAtAction --> will execute GetByID method and pass id (new {id = itemModel.Id}) to this method and after that it will return --> itemModel.ToItemDto() the data in this form
+    //CreatedAtAction --> will execute/invoke GetByID method and pass id (new {id = itemModel.Id}) to this method as this method requires one parameter ->(id), and after that it will return --> itemModel.ToItemDto() the data in this form
 
     }
 
@@ -99,13 +132,19 @@ public class ItemController : ControllerBase  //<--Inherit from ControllerBase ,
 
 
     [HttpPut]
-    [Route("{id}")]  //<-- we need to specify an id (or some type of identifier), we will find an object by Id chich needs to be changed
+    [Route("{id:int}")]  //<-- we need to specify an id (or some type of identifier), we will find an object by Id chich needs to be changed. id must be an intager
     //[FromRoute] , [FromBody]  <-- are annotations, these are the data which we need for PUT Method. 
     //[FromBody] --> We POST data in the body,we put JSON in the body. 
     //[FromRoute] int id --> we get an id, in data type -> int, with the name - id
     //UpdateItemRequestDto --> new DTO, new created Model, with the name --> updateDto (where will be all changes in POST body)
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateItemRequestDto updateDto){  //UpdateItemRequestDto will be a template Form to fill to Update the object, will appear in Swagger Schemas
 
+        
+         if(!ModelState.IsValid){     //Here we perform all Data Validation from DTO Class, ModelState is coming from /inheriting from ControllerBase 
+            return BadRequest(ModelState);  
+        }
+
+        
         var itemModel = await _iitemRepository.UpdateItem(id, updateDto);  //Use ItemRepository methods
 
         if (itemModel == null){ 
@@ -122,8 +161,14 @@ public class ItemController : ControllerBase  //<--Inherit from ControllerBase ,
 
 
     [HttpDelete]
-    [Route("{id}")]  //<-- we use Route id, from URL to find needed object and then we can delete it
+    [Route("{id:int}")]  //<-- we use Route id, from URL to find needed object and then we can delete it, int must be an intager
     public async Task<IActionResult> Delete([FromRoute] int id){   //<--getting id from the URL 
+        
+        
+         if(!ModelState.IsValid){     //Here we perform all Data Validation from DTO Class, ModelState is coming from /inheriting from ControllerBase 
+            return BadRequest(ModelState);  
+        }
+
         
         var itemModel = await _iitemRepository.DeleteItem(id);   //Use ItemRepository methods
 

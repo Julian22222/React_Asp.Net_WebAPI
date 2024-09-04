@@ -33,6 +33,13 @@ public class CommentController : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> GetAll(){
+
+
+        if(!ModelState.IsValid){     //Here we perform all Data Validation from DTO Class, ModelState is coming from /inheriting from ControllerBase 
+            return BadRequest(ModelState);  
+        }
+
+
         var comments = await _icommentRepo.GetAllComments();  //invoke GetAllComments Method from CommentRepository
     
         var commentDto =  comments.Select(x=>x.ToCommentDto());  // Convert Comment data type to specfic data type using ToCommentDto Method ToCommentDto Static Method --> in CommentMapper
@@ -43,8 +50,14 @@ public class CommentController : ControllerBase
 
 
      // This Method will create new route for each comment -->[Route("api/comments")] + /{id}  //<--takes a variable
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]  //Id must be an intager (whole number), This is Data Validation
     public async Task<IActionResult> GetById([FromRoute] int id){  //get a id variable from URL, this id is transfered to --> ([FromRoute] int id) parametr --> .NET extraact "{id}" from string out turning it to --> int id. .Net do the Model binding
+
+
+        if(!ModelState.IsValid){     //Here we perform all Data Validation from DTO Class, ModelState is coming from /inheriting from ControllerBase 
+            return BadRequest(ModelState);  
+        }
+
 
         var comment = await _icommentRepo.GetCommentById(id);  // Use CommentRepository method
 
@@ -61,11 +74,17 @@ public class CommentController : ControllerBase
 
     //To add a comment, each comment must have Foreign key (to be referenced to one of Item)
     //If we create a comment it Has to have a Parent (to have Foreign Key)
-    [HttpPost("{ItemId}")]   //ItemId is a Foreign Key -->to be reference to one of the Item)
+    [HttpPost("{ItemId:int}")]   //ItemId is a Foreign Key -->to be reference to one of the Item), ItemId must be an intager
     //[FromBody]  <-- annotations, we take the data from "body" to POST, For POST Method we don't need to send an Id (Primary Key for Comment), Entity Framework (EF) will create Id automatically
     //[FromRoute] int ItemId <-- will take an Id from URL (It is Foreign Key - to be reference to one of the Item), 
     //CreateCommentDto <-- data type(created DTO Class), commentDto <-- name of this data
     public async Task<IActionResult> Create([FromRoute] int ItemId, CreateCommentDto commentDto){   // CreateCommentDto commentDto --> is a body to post a data
+
+
+        if(!ModelState.IsValid){     //Here we perform all Data Validation from DTO Class, ModelState is coming from /inheriting from ControllerBase 
+            return BadRequest(ModelState);  
+        }
+
 
         if(!await _itemRepository.IsItemExist(ItemId)){  //If Item doesn't exist 
             return BadRequest("Item does not exist");
@@ -81,8 +100,14 @@ public class CommentController : ControllerBase
 
 
     [HttpPut]  //Update a Comment
-    [Route("{id}")] //getting comment Id from the URL
+    [Route("{id:int}")] //getting comment Id from the URL, id must be an intager
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCommentRequestDto updateDto){  //[FromRoute] int id <-- getting comment id from the URL, [FromBody] UpdateCommentRequestDto updateDto  <-- update Json body
+    
+
+        if(!ModelState.IsValid){     //Here we perform all Data Validation from DTO Class, ModelState is coming from /inheriting from ControllerBase 
+            return BadRequest(ModelState);  
+        }
+
 
       var comment = await _icommentRepo.UpdateComment(id, updateDto.ToCommentFromUpdate());
 
@@ -97,8 +122,14 @@ public class CommentController : ControllerBase
 
 
     [HttpDelete]
-    [Route("{id}")]  //getting comment Id from the URL
+    [Route("{id:int}")]  //getting comment Id from the URL, int must be an intager
     public async Task<ActionResult> Delete([FromRoute] int id){
+
+
+        if(!ModelState.IsValid){     //Here we perform all Data Validation from DTO Class, ModelState is coming from /inheriting from ControllerBase 
+            return BadRequest(ModelState);  
+        }
+
         var commentModel = await _icommentRepo.DeleteComment(id);
 
         if(commentModel == null){ //if there is no comment with this id

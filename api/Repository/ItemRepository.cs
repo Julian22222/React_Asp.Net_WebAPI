@@ -1,3 +1,4 @@
+using System.Runtime.Intrinsics.X86;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using api.Data;
 using api.Mappers;
 using api.Dtos.Item;  //to use CreateItemRequestDto
 using api.Interfaces;
+using api.Helpers;
 
 
 namespace api.Repository;
@@ -32,23 +34,59 @@ public class ItemRepository : IItemRepository  //inherit from Interface
     
 
 
-    //return List with data type--> Item, GetAll - is a name of this method
-    public async Task<List<Item>> GetAllItems(){
+    //    ////return List with data type--> Item, GetAll - is a name of this method
+    // public async Task<List<Item>> GetAllItems(){  ////option without a query
 
-        // ToList(); - will help this command to be executed, to go to SQL Server and get what we asked for
-        // var items = await _context.Items.ToListAsync();  //<-- this line will return all Object of Item , with all properties
+    //     //// ToList(); - will help this command to be executed, to go to SQL Server and get what we asked for
+    //    //// var items = await _context.Items.ToListAsync();  //<-- this line will return all Object of Item , with all properties
 
-        //Select is .NET version of a .map in JavaScript, we map over the List of object and passing each object to --> static ToitemDto method
-        // var items = await _context.Items.ToListAsync();   //<-- this line will return an object in Item Model Format
+    //     ////Select is .NET version of a .map in JavaScript, we map over the List of object and passing each object to --> static ToitemDto method
+    //     //// var items = await _context.Items.ToListAsync();   //<-- this line will return an object in Item Model Format
         
-        // var newItem = items.Select(x => x.ToItemDto()); // Item Model Format (data type) we convert to ItemDto (data type)   using --> Mappers/ItemMappers.cs file
+    //     //// var newItem = items.Select(x => x.ToItemDto()); // Item Model Format (data type) we convert to ItemDto (data type)   using --> Mappers/ItemMappers.cs file
 
 
 
-        // return await _context.Items.ToListAsync();   //<-- this line of code will show Items without comments
-        return await _context.Items.Include(x=>x.Comments).ToListAsync();
+    //     //// return await _context.Items.ToListAsync();   //<-- this line of code will show Items without comments
+    //     return await _context.Items.Include(x=>x.Comments).ToListAsync();
+    // }
+
+
+
+
+     public async Task<List<Item>> GetAllItems(QueryObject query)  //Option with the query
+    {
+
+       var items = _context.Items.Include(x=>x.Comments).AsQueryable();  //don't need await because this code not async anymore. Now when we use AsQueryable --> we can add more logic to our Database query
+        
+        if(!string.IsNullOrWhiteSpace(query.Type)){  //if query.Type is not null 
+
+            items = items.Where(x=>x.Type.Contains(query.Type));
+        }
+
+
+        if(!string.IsNullOrWhiteSpace(query.Name)){  //if query.Name is not null 
+
+            items = items.Where(x=>x.Name.Contains(query.Name));
+        }
+
+
+        if(!string.IsNullOrWhiteSpace(query.SortBy)){
+
+            // query.SortBy.Equals("Name"  <--we sort by Name, --> type Name in SortBy in Swagger
+            // StringComparison.OrdinalIgnoreCase  <-- in this case we ignore Original / Normal sorting
+            if(query.SortBy.Equals("Name", StringComparison.OrdinalIgnoreCase)){
+
+                //query.IsDescending <-- can be true or false, coming from query, from QueryObject Class
+                //if query.IsDescending == true --> we sort Items in descending order , else ascending
+                items = query.IsDescending ? items.OrderByDescending(x=>x.Name) : items.OrderBy(x=>x.Name);
+            }
+        }
+
+
+        return await items.ToListAsync();   //here we can use await method and return the data
+
     }
-
 
 
 
@@ -121,5 +159,8 @@ public class ItemRepository : IItemRepository  //inherit from Interface
 
     public async Task<bool> IsItemExist(int id){     // by this method we can chec if the Item exist, when we add the comment to this Item
         return await _context.Items.AnyAsync(x=> x.Id ==id);   //Any check if the item exist in DB it will return true or false  
-    }   
+    }
+
+   
+
 }

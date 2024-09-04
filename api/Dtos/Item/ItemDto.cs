@@ -17,7 +17,7 @@ namespace api.Dtos.Item
     public string Name { get; set; } = string.Empty;  //<--string.Empty == "";
 
     [Required]
-    public string Type { get; set; }
+    public string Type { get; set; } = "";
 
     [Required]
     public string Description { get; set; } = "";

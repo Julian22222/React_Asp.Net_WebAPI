@@ -11,12 +11,15 @@ namespace api.Dtos.Item
     {
 
     [Required]
+    [MaxLength(30, ErrorMessage = "Name cannot be over 30 characters")]
     public string Name { get; set; } = string.Empty;  //<--string.Empty == "";
 
     [Required]
+    [MaxLength(20, ErrorMessage = "Type cannot be over 20 characters")]
     public string Type { get; set; }
 
     [Required]
+    [MaxLength(500, ErrorMessage = "Description cannot be over 500 characters")]
     public string Description { get; set; } = "";
 
 
@@ -25,7 +28,9 @@ namespace api.Dtos.Item
 
 
     // if we are dealing with money, can have only 18 digits and only 2 decimal places
-    [ColumnAttribute(TypeName = "decimal(18,2)")]
+    // [ColumnAttribute(TypeName = "decimal(18,2)")]
+    [Required]
+    [Range(1, 10000000)]
     public decimal Price { get; set; }
 
         

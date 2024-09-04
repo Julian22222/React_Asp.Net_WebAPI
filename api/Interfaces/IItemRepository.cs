@@ -1,5 +1,6 @@
 using api.Models;
 using api.Dtos.Item;
+using api.Helpers;
 
 namespace api.Interfaces
 {
@@ -13,7 +14,9 @@ namespace api.Interfaces
         //The Class which will inherit this Interface MUST have the same methods and arguments
 
 
-        Task<List<Item>> GetAllItems();
+        // Task<List<Item>> GetAllItems();  //Method without a query
+
+        Task<List<Item>> GetAllItems(QueryObject query);  //Method with the query
 
         Task<Item?> GetItemById(int id);  //Item? <-- because this method uses - FirstOrDefault --> an it CAN BE NULL, if it is not find something it will return null
     
