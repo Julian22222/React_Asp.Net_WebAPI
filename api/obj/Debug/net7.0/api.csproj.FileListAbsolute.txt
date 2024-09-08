@@ -78,3 +78,6 @@
 /home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/bin/Debug/net7.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 /home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/bin/Debug/net7.0/Newtonsoft.Json.dll
 /home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/bin/Debug/net7.0/Newtonsoft.Json.Bson.dll
+/home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/bin/Debug/net7.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/bin/Debug/net7.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+/home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/bin/Debug/net7.0/dotnet-ef.dll

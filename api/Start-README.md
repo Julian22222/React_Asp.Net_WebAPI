@@ -2,6 +2,11 @@
 
 - we delete ASP.NET_WEB_API.generated.sln //<--file with Visual Studio logo (purple)
 
+```C#
+  //If don't delete the file , show this error-->
+Specify which project or solution file to use because this folder contains more than one project or solution file.
+```
+
 1. in terminal --> dotnet new list
 2. In terminal --> dotnet new webapi
 3. we delete ASP.NET_WEB_API.generated.sln //<--file with Visual Studio logo (purple)

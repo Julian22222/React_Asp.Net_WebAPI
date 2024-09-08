@@ -17,4 +17,12 @@ public class QueryObject
     public string? SortBy { get; set; } = null;
 
     public bool IsDescending { get; set; } = false;
+
+
+
+    //for Pagination
+    public int PageNumber { get; set; } = 1;
+
+    //how many Items show on one Page
+    public int PageSize { get; set; } = 20;
 }

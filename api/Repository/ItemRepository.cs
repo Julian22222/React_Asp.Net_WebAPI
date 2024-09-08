@@ -84,7 +84,12 @@ public class ItemRepository : IItemRepository  //inherit from Interface
         }
 
 
-        return await items.ToListAsync();   //here we can use await method and return the data
+
+        //PageNumber by default = 1 --> (1 - 1) * 20 = 0 <--will Skip O Items
+        var skipNumber = (query.PageNumber -1) * query.PageSize;    //here we do calculation for Pagination
+
+        //Skip(skipNumber) == 0, Take(query.PageSize) = 20 (by default) <-- will show first 20 Items
+        return await items.Skip(skipNumber).Take(query.PageSize).ToListAsync();   //here we can use await method and return the data
 
     }
 
