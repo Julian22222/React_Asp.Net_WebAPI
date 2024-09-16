@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/api.csproj": {}
+    "/home/codenitro/VSCode/project/React_Asp.Net_WebAPI/api/api.csproj": {}
   },
   "projects": {
-    "/home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/api.csproj": {
+    "/home/codenitro/VSCode/project/React_Asp.Net_WebAPI/api/api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/api.csproj",
+        "projectUniqueName": "/home/codenitro/VSCode/project/React_Asp.Net_WebAPI/api/api.csproj",
         "projectName": "api",
-        "projectPath": "/home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/api.csproj",
+        "projectPath": "/home/codenitro/VSCode/project/React_Asp.Net_WebAPI/api/api.csproj",
         "packagesPath": "/home/codenitro/.nuget/packages/",
-        "outputPath": "/home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/obj/",
+        "outputPath": "/home/codenitro/VSCode/project/React_Asp.Net_WebAPI/api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/codenitro/.nuget/NuGet/NuGet.Config"
@@ -106,7 +106,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/7.0.115/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/7.0.119/RuntimeIdentifierGraph.json"
         }
       }
     }

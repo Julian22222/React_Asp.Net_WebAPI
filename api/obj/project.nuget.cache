@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "R9HHvrAXifoKOxhgpwgMU5lkC8njJW5Ksz0OEUozjTaLgfQ8fsFg9YZN5O08B+ELJVxR0gL9EhQmKP5HmyxKXQ==",
+  "dgSpecHash": "tOkUripYRPnN2lg3h7sLe801VgMVoVoS7Y4hfkQPIqLWtITsRYMDI9r6wsRbf2if3kGDa8KD66wtBziT8wDo+w==",
   "success": true,
-  "projectFilePath": "/home/codenitro/VSCode/northocoders/project/React_Asp.Net_WebAPI/api/api.csproj",
+  "projectFilePath": "/home/codenitro/VSCode/project/React_Asp.Net_WebAPI/api/api.csproj",
   "expectedPackageFiles": [
     "/home/codenitro/.nuget/packages/azure.core/1.24.0/azure.core.1.24.0.nupkg.sha512",
     "/home/codenitro/.nuget/packages/azure.identity/1.6.0/azure.identity.1.6.0.nupkg.sha512",

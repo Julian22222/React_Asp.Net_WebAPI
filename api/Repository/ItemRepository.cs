@@ -138,6 +138,17 @@ public class ItemRepository : IItemRepository  //inherit from Interface
         await _context.SaveChangesAsync();
 
         return existingItem; //return updated object
+
+
+        //another option-->
+        //_context.Entry(entity).CurrentValues.SetValues(dto);  <--instead of manual mapping
+        
+        //can update with another option-->
+        //public void Save(Author author){
+        //context.Update(author);
+        //context.SaveChanges();
+        // }
+        //https://www.learnentityframeworkcore.com/dbcontext/modifying-data
     }
 
 
@@ -154,7 +165,9 @@ public class ItemRepository : IItemRepository  //inherit from Interface
         return null;
     }
 
-    _context.Items.Remove(itemModel);   //<-- Remove is NOT Asynchrones function, Don't need to add --> await in front of this line
+
+     //Remove is not async. Removing an object is very simple and fast operation, it doesn't involve waiting any external resources db call,making network calls, and reading from disk
+    _context.Items.Remove(itemModel);   //<-- Remove is NOT asynchronous function, Don't need to add --> await in front of --> _context
     await _context.SaveChangesAsync();
 
     return itemModel;
