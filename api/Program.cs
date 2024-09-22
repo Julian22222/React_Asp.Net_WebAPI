@@ -7,7 +7,8 @@ using api.Repository;
 using api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;   //to work with database
+using Microsoft.IdentityModel.Tokens;
+using api.Service;   //to work with database
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -64,13 +65,13 @@ options.DefaultScheme =
 options.DefaultSignInScheme = 
 options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;  //this will set all defaults for us, all Schemes above
 }).AddJwtBearer(options=>{  //Here we adding JWT
-    options.TokenValidationParameters = new TokenValidationParameters(){  //TokenValidationParameters comes with JwtBearer downloaded Nuget Package 
+    options.TokenValidationParameters = new TokenValidationParameters(){  //TokenValidationParameters comes with JwtBearer, <-- downloaded Nuget Package 
     ValidateIssuer = true,
     ValidIssuer = builder.Configuration["JWT:Issuer"],  //Issuer is a Server URL from appsettings.json, assign values from appsettings.json to the variables
     ValidateAudience = true,
     ValidAudience = builder.Configuration["JWT:Audience"],  //Audience is the Users , who use our App, assign values from appsettings.json to the variables
     ValidateIssuerSigningKey = true,
-    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]))  //SigningKey must be hidden!!!! , it is Secret key. Assign values from appsettings.json to the variables, Here we use a form of encryption --> we convert data from appsettings.json file String --> to Bytes 
+    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]))  //SigningKey must be hidden!!!! , it is Secret key. Assign values from appsettings.json to the variables, Here we use a form of encryption --> we convert data from appsettings.json file String (JWT:SigningKey) --> to Bytes 
     };
 });
 
@@ -80,6 +81,7 @@ options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;  //this w
 //To use Dependency Injection, All Repository Classes and Interfaces MUST be HERE!!!!
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ITokenService,TokenService>();
 
 
 var app = builder.Build();   //app is going to control http request pipeline
@@ -101,6 +103,7 @@ app.UseHttpsRedirection();
 
 
 //These 2 lines are used for Identity Framework Core (LogIn ,LogOut,SignIn, etc.)
+//the order matters
 app.UseAuthentication();
 app.UseAuthorization();
 

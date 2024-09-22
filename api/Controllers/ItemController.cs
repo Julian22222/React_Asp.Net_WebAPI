@@ -108,10 +108,11 @@ public class ItemController : ControllerBase  //<--Inherit from ControllerBase ,
     //will receive the data in format of --> ItemDto Model
     //CreateItemRequestDto <--Data type
     //[FromBody]  <-- annotations, we take the data from "body" to POST, For POST Method we don't need to send an Id, Entity Framework (EF) will create Id automatically
+    //[FromBody <-- is a form that we receive in controller that user POST when creates Item]
     public async Task<IActionResult> Create([FromBody] CreateItemRequestDto ItemDto){  //we need [FromBody], because our Data will be in form of JSON, we not passing the data through URL, we passing the data in the--> body of HTTP. //CreateItemRequestDto will be a template Form to fill to Add new object to DB, will appear in Swagger Schemas
     //Create Request portion of our DTO, user will need to submit only data from DTO , but not to fill all properties from Item Class
     //for a POST method we create another DTO --> CreateItemRequestDto, it will help to trim out not needed properties to POST (No need -> Id, and comments from Item Model)
-
+    //When you POST, you don’t need Id because it’s brand new creation with no ID in database. Database creates Id automatically in POST method
 
      if(!ModelState.IsValid){     //Here we perform all Data Validation from DTO Class, ModelState is coming from /inheriting from ControllerBase 
             return BadRequest(ModelState);  

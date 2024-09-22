@@ -78,6 +78,7 @@ public class CommentController : ControllerBase
     //[FromBody]  <-- annotations, we take the data from "body" to POST, For POST Method we don't need to send an Id (Primary Key for Comment), Entity Framework (EF) will create Id automatically
     //[FromRoute] int ItemId <-- will take an Id from URL (It is Foreign Key - to be reference to one of the Item), 
     //CreateCommentDto <-- data type(created DTO Class), commentDto <-- name of this data
+    //[FromRoute] <--we use from Route, because each comment is linked to particular Item
     public async Task<IActionResult> Create([FromRoute] int ItemId, CreateCommentDto commentDto){   // CreateCommentDto commentDto --> is a body to post a data
 
 

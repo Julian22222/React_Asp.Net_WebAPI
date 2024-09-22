@@ -9,7 +9,7 @@ namespace api.Interfaces
 
          //This Interface has the same Methods and properties as ItemRepository Class in Repository folder
 
-        //Interfaces allow as to plug in this code tp other places and allow us to abstract our code away
+        //Interfaces allow as to plug in this code to other places and allow us to abstract our code away
         //Interfaces can be pluged in to our Repository files, and quikly implement the interface from Interface file
         //The Class which will inherit this Interface MUST have the same methods and arguments
 

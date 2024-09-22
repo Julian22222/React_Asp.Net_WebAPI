@@ -10,7 +10,7 @@ public class RegisterDto
 
     [Required]
     [EmailAddress]  //.NET Core automatically does the email address validation
-    public string? EmailAddress { get; set; }  //optional property
+    public string? Email { get; set; }  //optional property
 
     [Required]
     //can add Regex to implement password validation

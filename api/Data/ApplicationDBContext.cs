@@ -17,7 +17,7 @@ namespace api.Data;
 // public class ApplicationDBContext : DbContext
 
 
-//or we can inherit this class from IdentityDbContext class to work with Identity
+//or we can inherit this class from IdentityDbContext class to work with Identity, with build in properties for a User 
 //IdentityDbContext class is inherited from DbContext class under the hood
 
 //  public class BookStoreContext : IdentityDbContext  <--use this code if you are planning to use Usernames, Passwords, LogIn, SignUp in yur App (it has already build in properties), it has standard AspNetUsers table, use this approach if we don't add any extra properties to AspNetUsers table
@@ -46,23 +46,34 @@ public class ApplicationDBContext : IdentityDbContext<AppUser>   //<-- use this 
 
 
     //override onc + Tab , <--to have a taplate
-    // protected override void OnModelCreating(ModelBuilder builder)
-    // {
-    //     base.OnModelCreating(builder);
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
 
-    //     List<IdentityRole> roles = new List<IdentityRole>(){     //Creating Identity Roles
+        List<IdentityRole> roles = new List<IdentityRole>(){     //Creating Identity Roles
 
-    //     new IdentityRole(){
-    //         Name = "Admin",
-    //         NormalizedName = "ADMIN"   //NormalizedName means it is Capitalised
-    //     },
-    //     new IdentityRole(){
-    //         Name = "User",
-    //         NormalizedName = "USER"   //NormalizedName means it is Capitalised
-    //     },
-    //     };
+        new IdentityRole(){
+            Name = "Admin",
+            NormalizedName = "ADMIN"   //NormalizedName means it is Capitalised
+        },
+        new IdentityRole(){
+            Name = "User",
+            NormalizedName = "USER"   //NormalizedName means it is Capitalised
+
+            
+        ////sometimes 'IdentityRole' ask to have the property 'ConcurrencyStamp'. Here in our example we have ConcurrencyStamp == NULL, but including them in the roles creation ensures the property is set and fixed the problem for me. 
+        ////The IdentityRole should then looke like this:
+        // new IdentityRole
+        // {
+        // Name = "Admin",
+        // NormalizedName = "ADMIN",
+        // ConcurrencyStamp = Guid.NewGuid().ToString()
+        // }
+        },
+        };
 
 
-    //     builder.Entity<IdentityRole>().HasData(roles);    //Adding roles to IdentityRole
-    // }
+
+        builder.Entity<IdentityRole>().HasData(roles);    //Adding roles to IdentityRole
+    }
 }

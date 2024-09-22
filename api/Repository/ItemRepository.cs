@@ -140,7 +140,7 @@ public class ItemRepository : IItemRepository  //inherit from Interface
         return existingItem; //return updated object
 
 
-        //another option-->
+        //another option to update-->
         //_context.Entry(entity).CurrentValues.SetValues(dto);  <--instead of manual mapping
         
         //can update with another option-->
