@@ -11,6 +11,8 @@ using Microsoft.IdentityModel.Tokens;
 using api.Service;   //to work with database
 
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -27,11 +29,31 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>{
 });
 
 
+if(builder.Environment.IsDevelopment()){
+
+    //make sure you put this code before --> var app = builder.Build();  otherwise it won't work
+    //ApplicationDBContext <-- DBContext file that we created in Data folder to connect to DB
+    builder.Services.AddDbContext<ApplicationDBContext>(options=>{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    });
+}
+
+
+
+if(builder.Environment.IsProduction()){
+
 //make sure you put this code before --> var app = builder.Build();  otherwise it won't work
 //ApplicationDBContext <-- DBContext file that we created in Data folder to connect to DB
 builder.Services.AddDbContext<ApplicationDBContext>(options=>{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+
+    DotNetEnv.Env.Load(); //to use .env file
+
+    var connection_string = Environment.GetEnvironmentVariable("AZUREDB_ConnectionStrings");
+
+    options.UseSqlServer(connection_string);
+    });
+
+}
 
 
 
@@ -65,13 +87,19 @@ options.DefaultScheme =
 options.DefaultSignInScheme = 
 options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;  //this will set all defaults for us, all Schemes above
 }).AddJwtBearer(options=>{  //Here we adding JWT
+
+DotNetEnv.Env.Load(); //to use .env file
+var key = Environment.GetEnvironmentVariable("JWT_SigningKey");
+
+
     options.TokenValidationParameters = new TokenValidationParameters(){  //TokenValidationParameters comes with JwtBearer, <-- downloaded Nuget Package 
     ValidateIssuer = true,
-    ValidIssuer = builder.Configuration["JWT:Issuer"],  //Issuer is a Server URL from appsettings.json, assign values from appsettings.json to the variables
+    ValidIssuer = builder.Configuration["JWT:Issuer"],  //Issuer is a Server URL, if we want to get Issuer from from appsettings.json use this line, assign values from appsettings.json to the variables
     ValidateAudience = true,
-    ValidAudience = builder.Configuration["JWT:Audience"],  //Audience is the Users , who use our App, assign values from appsettings.json to the variables
+    ValidAudience = builder.Configuration["JWT:Audience"],  //Audience is the Users , who use our App, assign values from appsettings.json to the variables, If we want to use Audience from appsettings.json use this line
     ValidateIssuerSigningKey = true,
-    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]))  //SigningKey must be hidden!!!! , it is Secret key. Assign values from appsettings.json to the variables, Here we use a form of encryption --> we convert data from appsettings.json file String (JWT:SigningKey) --> to Bytes 
+    // IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]))  ////SigningKey must be hidden!!!! , it is Secret key. Assign values from appsettings.json to the variables, Here we use a form of encryption --> we convert data from appsettings.json file String (JWT:SigningKey) --> to Bytes 
+    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(key)) 
     };
 });
 
@@ -90,6 +118,14 @@ var app = builder.Build();   //app is going to control http request pipeline
 if (app.Environment.IsDevelopment())
 {
     //Swagger will be launched only in Development Environment
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+
+
+if (app.Environment.IsProduction())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
 }

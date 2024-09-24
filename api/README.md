@@ -479,7 +479,7 @@ Claims:
 - Claims don't use DB and give much more flexibility (this makes Claims much better than Roles)
 - Microsoft has moved away from Roles
 
-#### Claims path
+#### Claims path (For Claims we used Services and Interface)
 
 - Claims is almost like Roles --> Key -valie pairs of things that are going describe what the User does and what he can't do
 - when User Submits his LogIn Form with Username , email etc. when LogIn--> it sends JWT to the Server
@@ -497,7 +497,7 @@ The concept of the ClaimPrincipal is almost like a valet, like Authentication va
 
 - we already written the code to handle validation of JWT
 - Identity handles the rest! (validation)
-- We can't generate JWT yet, we need to write code to handel generation of JWT
+- We can't generate JWT yet, we need to write code to handle generation of JWT
 - We create the tokken! (generation)
 - there are many ways to do this, but it easier to write your own service to create tokkens outside of Identity, there are tools that allow to do that
 
@@ -607,12 +607,40 @@ builder.Services.AddSwaggerGen();
   - Favorites
   - Likes
   - Invites
-  - Stock Portfolio
-
-We want the User to be able to add infinite combinations of Items to their portfolio and we want other users to be ableto add items as well, so we need literally endless combinations of Items
+  - Item Portfolio (in our case) --> We want the User to be able to add infinite combinations of Items to their portfolio and we want other users to be ableto add items as well, so we need literally endless combinations of Items
 
 One to many relationship has its limitations. One too many is bad because you can have only one Item as the parent so wouldn't be able to have the infinite combinations like we want (--> See one-to-many.png file in the Root )
 
-To do many to many relationship --> we Must create join table, which will link Item table and User table together (--> See many-to-many.png file in the Root).
+If we want to make -> many to many relationship --> we Must create join table, which will link Item table and User table together (--> See many-to-many.png file in the Root). Joint table is going to have UserId, ItemId amd we can link them together in this Joint table
 
 We must create Join table to link different tables together, Don't make many to many relationship without Join table (--> See do-not-do-thi.png file in the Root)
+
+There are some convention when you create many to many relationship:
+
+- we are going to allow EF Core to do a lot of heavy lifting for us(some job under the hood) , we are going to link some of it up in on model creating but we are going to rely on some convention.
+  Convention means - that you put your IDs in the model, you put your navigation properties in the model and EF Core is going to take care of a lot of it for you and create this Joint table so that you don't have to.
+
+```C#
+//Example many to many relationshipt between 2 tables
+
+public class Post{
+    public int Id { get; set; }
+    public List<PostTag> PostTags { get; } = [];
+}
+
+public class Tag{
+    public int Id { get; set; }
+    public List<PostTag> PostTags { get; } = [];
+}
+
+public class PostTag{
+    public int PostId { get; set; }
+    public int TagsId { get; set; }
+    public Post Post { get; set; } = null;
+    public Tag Tag { get; set; } = null;
+}
+```
+
+And lastly once we get done with the convention we are going to come back in with the on model creating, we are going to go into our application DB context and we are going to link up our actual Joint table within the on model creating
+
+[YouTube](https://www.youtube.com/watch?v=Cxf_CKpZxQY&list=PL82C6-O4XrHfrGOCPmKmwTO7M0avXyQKc&index=25)

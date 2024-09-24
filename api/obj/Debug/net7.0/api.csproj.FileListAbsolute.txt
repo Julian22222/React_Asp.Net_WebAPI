@@ -164,3 +164,5 @@
 /home/codenitro/VSCode/project/React_Asp.Net_WebAPI/api/obj/Debug/net7.0/api.pdb
 /home/codenitro/VSCode/project/React_Asp.Net_WebAPI/api/obj/Debug/net7.0/api.genruntimeconfig.cache
 /home/codenitro/VSCode/project/React_Asp.Net_WebAPI/api/obj/Debug/net7.0/ref/api.dll
+/home/codenitro/VSCode/project/React_Asp.Net_WebAPI/api/bin/Debug/net7.0/DotNetEnv.dll
+/home/codenitro/VSCode/project/React_Asp.Net_WebAPI/api/bin/Debug/net7.0/Sprache.dll

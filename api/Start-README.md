@@ -90,3 +90,38 @@ dotnet ef migrations add Init     //<--this command allow to add tables and prop
 
 dotnet ef database update     ////<-- update the DB
 ```
+
+# dotnetenv
+
+- download dotnetenv package from Nuget Packages
+- to use --> .env secret files
+
+- the to use files from .env we need to write
+
+```C#
+DotNetEnv.Env.Load();
+
+
+//this option to use in Program.cs file
+//LOCALDB_CONNECTION_STRING <-- name of you .env variable
+var con_string = Environment.GetEnvironmentVariable("LOCALDB_CONNECTION_STRING");
+--> use con_string
+
+
+
+
+
+
+//this option for any other classes
+private readonly IConfiguration _configuration;  //declare configuration //<--using IConfiguration we can have access to appsettings.json and secrets and .env file
+
+
+//in constructor
+ public MyBookStoreWebDbContext(IConfiguration configuration){
+_configuration = configuration;  //<--needs to connects to appsettings.json and secret files
+}
+
+
+var secret = _configuration["LOCALDB_CONNECTION_STRING"];
+
+```
