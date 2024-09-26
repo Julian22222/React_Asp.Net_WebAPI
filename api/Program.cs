@@ -56,7 +56,7 @@ if(builder.Environment.IsProduction()){
 
 var keyVaultURL = builder.Configuration.GetSection("KeyVault:KeyVaultURL");             //getting info from appsettings.json
 var keyVaultClientId = builder.Configuration.GetSection("KeyVault:ClientId");           //getting info from appsettings.json
-var keyVaultClientSecret = builder.Configuration.GetSection("KeyVault:ClientSec");  //getting info from appsettings.json
+var keyVaultClientSecret = builder.Configuration.GetSection("KeyVault:ClientSecret");  //getting info from appsettings.json
 var keyVaultDirectoryID = builder.Configuration.GetSection("KeyVault:DirectoryID");    //getting info from appsettings.json
 
 //this allow us to authenticate us in Azure ID, to prove that we are who we are, to access to resources that we want in Azure Portal   
