@@ -38,6 +38,14 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Azure.Identity": {
+              "target": "Package",
+              "version": "[1.12.1, )"
+            },
+            "Azure.Security.KeyVault.Secrets": {
+              "target": "Package",
+              "version": "[4.6.0, )"
+            },
             "DotNetEnv": {
               "target": "Package",
               "version": "[3.1.1, )"
@@ -77,6 +85,10 @@
             "Microsoft.EntityFrameworkCore.Tools.DotNet": {
               "target": "Package",
               "version": "[2.0.3, )"
+            },
+            "Microsoft.Extensions.Configuration.AzureKeyVault": {
+              "target": "Package",
+              "version": "[3.1.24, )"
             },
             "Microsoft.Extensions.Identity.Core": {
               "target": "Package",
