@@ -159,11 +159,11 @@ if (app.Environment.IsDevelopment())
 
 
 
-// if (app.Environment.IsProduction())
-// {
-//     app.UseSwagger();
-//     app.UseSwaggerUI();
-// }
+if (app.Environment.IsProduction())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 
 //We can add this line To handle the errors -->All error will be sent to this URL --> ErrorHandling/ProcessError  //(Where ErrorHandling - ErrorHandlingController.cs and ProcessError - Method name)
