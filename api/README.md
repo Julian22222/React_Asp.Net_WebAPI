@@ -565,6 +565,8 @@ We want return new User's --> userName and email address and token (properties t
 - After Registration of new User --> received JWT Token we can decode Here --> to see if it is corectly working
   [JWT Decode](https://jwt.io/)
 
+[JWT docs](https://dev.to/jaypmedia/jwt-explained-in-4-minutes-with-visuals-g3n#:~:text=JWT%20stands%20for%20JSON%20Web,known%20only%20to%20the%20server)
+
 # Login
 
 - We need to find the user --> using User Manager (used to find User)
