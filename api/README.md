@@ -1,5 +1,7 @@
 [Web API Docs with ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0&WT.mc_id=dotnet-35129-website&tabs=visual-studio-code)
 
+[WebApi docs](https://learn.microsoft.com/en-us/power-apps/guidance/fusion-dev-ebook/05-creating-publishing-web-api-in-azure)
+
 # Connection Fron-end project to the back-end
 
 Swagger and React can be used at the same time. That's the best part about swagger. You have frontend React plus Swagger to build when you have to React infrastructure.
@@ -98,6 +100,7 @@ public async Task<Item> GetAll(){
 - We change Itemrepository.cs file (line 49 and 57)
 
 ```C#
+//Include method we use when 2 tables are connected together, Comments <-- is a property from another table to include in this request
  return await _context.Items.Include(x=>x.Comments).ToListAsync();
 
 
@@ -292,6 +295,32 @@ var skipNumber = (query.PageNumber -1) * query.PageSize;    //here we do calcula
 
  //Skip(skipNumber) == 0, Take(query.PageSize) = 20 (by default) <-- will show first 20 Items
 return await items.Skip(skipNumber).Take(query.PageSize).ToListAsync();
+
+```
+
+# Check if the route parametr is correct
+
+```C#
+public class ItemController : ControllerBase
+{
+[Route("category/items/{itemId}/{isLogged}")]
+
+public IActionResult items(){
+    if(!Request.RouteValues.ContainsKey("ItemId")){ //reding query string, if there is no itemId in the route, show this return
+        return BadRequest("Item Id is not provided!")
+    }
+
+    int bookId = Convert.ToInt32(Request.Query["ItemId"]);
+
+    if (bookId < 1 || bookId > 1000){
+        return NotFound("Book ID is not in Range of 1 to 1000");
+    }
+
+    if(!Convert.ToBoolean(Request.Query["IsLogged"])){ //if there is no parametr isLogged --> in the route
+        return BadRequest("IsLogged parametr is not provided!")
+    }
+}
+}
 
 ```
 
@@ -644,3 +673,11 @@ public class PostTag{
 And lastly once we get done with the convention we are going to come back in with the on model creating, we are going to go into our application DB context and we are going to link up our actual Joint table within the on model creating
 
 [YouTube](https://www.youtube.com/watch?v=Cxf_CKpZxQY&list=PL82C6-O4XrHfrGOCPmKmwTO7M0avXyQKc&index=25)
+
+# Cors
+
+```C#
+//In Program.cs file write
+
+app.UseCors("AllowAll");
+```
